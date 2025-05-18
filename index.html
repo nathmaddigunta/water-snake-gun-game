@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Water-Snake-Gun Game</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #74ebd5, #acb6e5);
+      text-align: center;
+      padding: 40px;
+      color: #333;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #222;
+    }
+
+    button {
+      padding: 12px 25px;
+      margin: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background-color: #007BFF;
+      color: white;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    p {
+      font-size: 1.2rem;
+    }
+
+    #output {
+      margin-top: 20px;
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+
+    #winnerMessage {
+      font-size: 1.5rem;
+      color: green;
+      margin-top: 30px;
+    }
+
+    .score {
+      font-size: 1.1rem;
+      margin: 10px 0;
+    }
+
+    .score span {
+      font-weight: bold;
+      color: #222;
+    }
+
+    .container {
+      background-color: white;
+      padding: 30px;
+      max-width: 600px;
+      margin: auto;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Water-Snake-Gun Game</h2>
+    <p>Choose your move:</p>
+
+    <button onclick="playGame('water')">💧 Water</button>
+    <button onclick="playGame('snake')">🐍 Snake</button>
+    <button onclick="playGame('gun')">🔫 Gun</button>
+
+    <p id="output"></p>
+    <p class="score">User Score: <span id="userScore">0</span></p>
+    <p class="score">Computer Score: <span id="computerScore">0</span></p>
+    <p id="winnerMessage"></p>
+  </div>
+
+  <script>
+    let userScore = 0;
+    let computerScore = 0;
+    let gameOver = false;
+
+    function playGame(userChoice) {
+      if (gameOver) return;
+
+      const options = ['water', 'snake', 'gun'];
+      const computerChoice = options[Math.floor(Math.random() * 3)];
+
+      let result = `You chose ${userChoice} <br> Computer chose ${computerChoice} <br>`;
+
+      if (userChoice === computerChoice) {
+        result += "It's a tie!";
+      } else if (
+        (userChoice === 'water' && computerChoice === 'gun') ||
+        (userChoice === 'snake' && computerChoice === 'water') ||
+        (userChoice === 'gun' && computerChoice === 'snake')
+      ) {
+        result += "You win!";
+        userScore++;
+      } else {
+        result += "You lost!";
+        computerScore++;
+      }
+
+      document.getElementById("output").innerHTML = result;
+      document.getElementById("userScore").innerText = userScore;
+      document.getElementById("computerScore").innerText = computerScore;
+
+      if (userScore === 5) {
+        document.getElementById("winnerMessage").innerText = "🎉 You won the game!";
+        gameOver = true;
+      } else if (computerScore === 5) {
+        document.getElementById("winnerMessage").innerText = "😢 Computer won the game!";
+        gameOver = true;
+      }
+    }
+  </script>
+</body>
+</html>
